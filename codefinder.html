@@ -1,0 +1,34 @@
+<iframe id="launcher" src="https://play.prodigygame.com/launcher" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
+    Your browser doesn't support iframes
+</iframe>
+
+
+
+<script>
+    try{
+        fetch("https://sso.prodigygame.com/premises?premises=home", {
+            "headers": {
+                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            },
+            "body": "",
+            "method": "POST",
+            "mode": "cors"
+        });
+    }
+    catch(e){
+        console.error(e)
+    }
+    var launcher = document.getElementById("launcher")
+    launcher.onload = async function(e) {
+        if (launcher.contentWindow.location.host == 'math.prodigygame.com') {
+            var hijackercode = await (await fetch("")).text();
+            window.opener.gamecodeurl = launcher.contentDocument.querySelector('script#gameFile').src;
+            if (window.opener.history.pushState) {
+                window.opener.document.open();
+                window.opener.document.write(hijackercode);
+                window.opener.document.close();
+                window.close();
+            }
+        }
+    }
+</script>
