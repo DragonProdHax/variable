@@ -691,9 +691,6 @@
         document.getElementById("bypasser").onload = async function () {
             bypasser = document.getElementById("bypasser");
             window.pxicode = await (await bypasser.contentWindow.fetch("https://raw.githubusercontent.com/DragonProdHax/variable/refs/heads/main/main.js")).text();
-            window.modlist = await bypasser.contentWindow.fetch("https://pxporigin.gemsvido.workers.dev/mods/all.json");
-            window.modlistjson = await window.modlist.json();
-
             window.code = await (await bypasser.contentWindow.fetch(window.gamecodeurl)).text();
             window.guicode = await (await bypasser.contentWindow.fetch("https://raw.githubusercontent.com/DragonProdHax/variable/refs/heads/main/gui/code")).text();
             try {

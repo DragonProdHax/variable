@@ -1,4 +1,4 @@
-loaderurl = "https://math.prodigygame.com/pxi"
+loaderurl = "https://math.prodigygame.com/pxi-fusion"
 
 if(window.location.href != loaderurl){
     window.location.href = loaderurl

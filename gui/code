@@ -7,4 +7,4 @@
         })
         .catch(error => console.error("Failed to load the script:", error));
 })();
-        
+console.log("Added PXI Fusion Menu To ProdigyMOD")
