@@ -1,5 +1,3 @@
-//this script is for functions for mods and other patches that don't need to directly modify the gamescript
-
 var functions = window._.functions;
 
 functions.dumpInversify = function(){
