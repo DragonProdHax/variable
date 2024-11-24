@@ -70,7 +70,7 @@ swalScript.onload = () => {
         "name": "Disable Math",
         "description": "Disables All Math Problems",
         "section": "Battle",
-        "dist": "_.constants.constants["GameConstants.Debug.EDUCATION_ENABLED"] = false;",
+        "dist": "",
         "success": "You have disabled math!",
         "developing": "false"
       }
@@ -80,7 +80,7 @@ swalScript.onload = () => {
         "name": "Enable Math",
         "description": "Enables All Math Problems",
         "section": "Battle",
-        "dist": "_.constants.constants["GameConstants.Debug.EDUCATION_ENABLED"] = true;",
+        "dist": "alert("Hi")",
         "success": "You Will Now Do Math",
         "developing": "false"
       }
