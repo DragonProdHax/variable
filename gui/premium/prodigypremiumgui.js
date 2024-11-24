@@ -63,7 +63,6 @@ swalScript.onload = () => {
     margin-bottom: 20px;
     gap: 10px;
   `;
-
   const hacks = [
     {
       "hack": {
@@ -80,7 +79,7 @@ swalScript.onload = () => {
         "name": "Enable Math",
         "description": "Enables All Math Problems",
         "section": "Battle",
-        "dist": "alert("Hi")",
+        "dist": "alert('Hi')", // Fixed: Use single quotes or escape double quotes
         "success": "You Will Now Do Math",
         "developing": "false"
       }
