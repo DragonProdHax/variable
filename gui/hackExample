@@ -1,0 +1,20 @@
+[
+    {// hack start
+        "hack": {
+          "name": "Hello World",// The name of the hack
+          "description": "Says Hello World", // The Description of the hack
+          "section": "Example",// what section to put the hack in
+          "dist": "(async()=>{console.log(\"Hello World\")})();",// Code to run for this
+          "success":"It says Hello world in console",// The message to run for the success message in sweet alert
+          "developing":"false" // If it is true then dont run any other code and just show in sweet alert (I will tell you)
+        }// Hack end
+      },
+      {
+        "hack": {
+          "name": "Set Level",
+          "description": "Sets the level of the player.",
+          "section": "player",
+          "dist": "console.log('Added PXI Fusion Menu To ProdigyMOD')",
+        }
+      }
+]
