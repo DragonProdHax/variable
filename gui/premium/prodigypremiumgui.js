@@ -69,7 +69,7 @@ swalScript.onload = () => {
         "name": "Disable Math",
         "description": "Disables All Math Problems",
         "section": "Battle",
-        "dist": "",
+        "dist": "_.constants.constants['GameConstants.Debug.EDUCATION_ENABLED'] = false;", // Removed leading space and used single quotes for consistency
         "success": "You have disabled math!",
         "developing": "false"
       }
@@ -79,12 +79,13 @@ swalScript.onload = () => {
         "name": "Enable Math",
         "description": "Enables All Math Problems",
         "section": "Battle",
-        "dist": "alert('Hi')", // Fixed: Use single quotes or escape double quotes
+        "dist": "alert('Hi')", // No changes needed
         "success": "You Will Now Do Math",
         "developing": "false"
       }
     }
   ];
+  
 
   const allHacksButton = document.createElement('button');
   allHacksButton.textContent = 'All Hacks';
