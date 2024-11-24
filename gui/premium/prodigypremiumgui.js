@@ -70,18 +70,18 @@ swalScript.onload = () => {
         "name": "Disable Math",
         "description": "Disables All Math Problems",
         "section": "Battle",
-        "dist": "(async()=>{console.log(\"Hello World\")})();",
+        "dist": "_.constants.constants["GameConstants.Debug.EDUCATION_ENABLED"] = false;",
         "success": "You have disabled math!",
         "developing": "false"
       }
     },
     {
       "hack": {
-        "name": "Set Level",
-        "description": "Sets the level of the player.",
-        "section": "Player",
-        "dist": "console.log('Added PXI Fusion Menu To ProdigyMOD')",
-        "success": "Player level set successfully.",
+        "name": "Enable Math",
+        "description": "Enables All Math Problems",
+        "section": "Battle",
+        "dist": "_.constants.constants["GameConstants.Debug.EDUCATION_ENABLED"] = true;",
+        "success": "You Will Now Do Math",
         "developing": "false"
       }
     }
