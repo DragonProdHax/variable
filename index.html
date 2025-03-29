@@ -3,122 +3,55 @@
 
 <head>
     <title>Play Prodigy</title>
-    <meta name="description" content="Amazing pets, epic battles and math practice. Prodigy, the no-cost math game where kids can earn prizes, go on quests and play with friends all while learning math." />
-    <meta property="og:title" content="Play Prodigy" />
-    <meta property="og:description" content="Amazing pets, epic battles and math practice. Prodigy, the no-cost math game where kids can earn prizes, go on quests and play with friends all while learning math." />
-    <meta name="twitter:title" content="Play Prodigy" />
-    <meta name="twitter:description" content="Amazing pets, epic battles and math practice. Prodigy, the no-cost math game where kids can earn prizes, go on quests and play with friends all while learning math." />
-    
+    <meta
+        name="description"
+        content="Amazing pets, epic battles and math practice. Prodigy, the no-cost math game where kids can earn prizes, go on quests and play with friends all while learning math."
+     />
+    <meta
+        property="og:title"
+        content="Play Prodigy"
+    />
+    <meta
+        property="og:description"
+        content="Amazing pets, epic battles and math practice. Prodigy, the no-cost math game where kids can earn prizes, go on quests and play with friends all while learning math."
+    />
+    <meta
+        name="twitter:title"
+        content="Play Prodigy"
+    />
+    <meta
+        name="twitter:description"
+        content="Amazing pets, epic battles and math practice. Prodigy, the no-cost math game where kids can earn prizes, go on quests and play with friends all while learning math."
+    />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
     <link rel="stylesheet" type="text/css" href="https://code.prodigygame.com/assets/styles/error-a36dfdf098.css">
 
-    <script>
-        (function() {
-            const originalFetch = window.fetch;
-            window.fetch = async function(...args) {
-                if (args[0].includes("https://code.prodigygame.com/code/") && args[0].includes("/game.min.js?v=")) {
-                    console.log("Blocked fetch request:", args[0]);
-                    return new Promise(() => {}); // Prevent request from completing
-                }
-                return originalFetch.apply(this, args);
-            };
-
-            const originalOpen = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function(method, url, ...rest) {
-                if (url.includes("https://code.prodigygame.com/code/") && url.includes("/game.min.js?v=")) {
-                    console.log("Blocked XHR request:", url);
-                    return;
-                }
-                return originalOpen.apply(this, [method, url, ...rest]);
-            };
-
-            console.log("Blocking script injected!");
-        })();
-    </script>
-
-    <script>
-        (async () => {
-            function modifyGame(code) {
-                var injectIdx;
-                for (let i = code.indexOf(`"GameConstants.Build.SHOW_DEBUG_VALUES"`); i >= 0; i--) {
-                    if (code[i] === "}") {
-                        injectIdx = i;
-                        break;
-                    }
-                }
-                
-                if (injectIdx) {
-                    var className = "";
-                    for (let i = injectIdx + 1; i < code.length; i++) {
-                        if (code[i] === "=") break;
-                        className += code[i];
-                    }
-                    className = className.trim();
-                    console.log(className);
-                    
-                    code = `${code.slice(0, injectIdx + 1)};window.DEBUG = ${className.split(".")[0]};${code.slice(injectIdx + 1)}`;
-                    
-                    code += "\n\nconsole.log(\"Injected Hack!\");SW.Load.decrementLoadSemaphore();";
-                    
-                    return "if(window._global){alert(\"Failed to inject hack, reloading...\");window.location.reload();}" + code;
-                }
-                
-                return code;
-            }
-            
-            if (!window.scriptIsInjected) {
-                window.scriptIsInjected = true;
-                
-                async function redirectorCheck() {
-                    chrome.storage.local.set({ allowGameFetch: true });
-                    console.log("allowGameFetch");
-                    fetch([...document.querySelectorAll('script[src^="https://code.prodigygame.com/code/"]')].find(e => e.src.indexOf("game.min.js") > -1).src)
-                        .then(res => res.text())
-                        .then(async response => {
-                            chrome.storage.local.set({ allowGameFetch: false });
-                            console.log("Fetched game.min.js!");
-                            
-                            const script = document.createElement("script");
-                            script.innerHTML = modifyGame(response);
-                            document.body.append(script);
-                        });
-                }
-                setTimeout(redirectorCheck, 100);
-                
-                // Disable integrity
-                console.groupCollapsed("integrity patches");
-                [...document.getElementsByTagName("script"), ...document.getElementsByTagName("link")].forEach(v => {
-                    if (v.integrity) {
-                        console.log(v.integrity);
-                        v.removeAttribute("integrity");
-                    }
-                });
-                console.groupEnd("integrity patches");
-            }
-        })();
-    </script>
 
     <script>
         // Do this first so that errors for all subsequent executed code is captured
+
         var prodigyServiceUrl = 'https://api.prodigygame.com/';
         var prodigyEducationFrontendAssetsUrl = '';
         var prodigyWebUrl = 'https://www.prodigygame.com';
         var prodigyUrlPrefix = '/';
-        var gameStatusDataStr = '{"ServerGameVersion":"1.0.0","maintenance":false,"maintenanceMessage":"Prodigy Math will be back shortly. Please try again in a couple of minutes.","gameClientVersion":"2025.10.0","gameLibPath":"https://code.prodigygame.com/lib/","gameCodePath":"https://code.prodigygame.com/code/2025.10.0/","prodigyGameFlags":{"experimentLE3LaneB":true,"autoAttackDisabled":true,"isDatadogRumEnabled":false,"videoLessonInstantWin":false,"synapseMultiplayerJoinEnabled":true,"enableEducationApiJwtAuth":true,"gameDataPath":"https://cdn.prodigygame.com/game/data/production/","parentAttachTrial":{"startDate":"March 14, 2019 00:00:00","endDate":"April 11, 2019 00:00:00","trialLengthDays":7,"exclusionLanes":[0,1,2,3,4,5,6,7,8,9]},"synapseMultiplayerTransformEnabled":true,"enabledEvents":{"login":true,"toy-event":false,"PVP":true,"epicAttacks":true,"pvp-season-reward":true,"game_complete":false,"game_complete_v3":false,"member-ad":true,"new-member":true,"survey-results":true,"create-character":true,"zone-event":true,"item-change-event":true,"conversion-funnel-event":true,"battle-start-type":true,"game_social":true,"game_social_v3":false,"game_source":true,"game_source_v3":false,"game_sink":true,"game_sink_v3":false,"game_avatar_v3":false,"game_mod":true,"game_battle_v3":false,"anonymous_game_complete_v3":false,"game_question_v3":false,"game_session_start":true,"game_avatar":true,"game_level_up":true,"game_discovery_v3":false,"education_lesson_encounter_v3":false,"education_question_interface_v3":false,"game_session_start_v3":false,"anonymous_game_discovery":true},"coOpTitanDisabled":false,"enableUserReportingButton":false,"launcher-datadogReplaySampleRate":0,"gameAssetsVersion":419,"setFest":0,"showClassCodeOnLogin":true,"loader-gameClientOverride":false,"titanShardMultiplier":{"startDate":"2021-11-02T12:00:00.000Z","endDate":"2021-11-08T05:00:00.000Z","bonusMultiplier":2},"useServerTimeForVideoLockout":true,"synapseMultiplayerChatEnabled":true,"enableElementalGuardianZone":true,"experimentLE2":false,"disableTrialMembership":true,"classCodePromptCurriculumBlacklist":[7,68],"gameAssetsMetaDataPath":"https://code.prodigygame.com/assets","synapseMultiplayerMoveEnabled":true,"launcher-performEarlyAccessCheck":false,"synapseMultiplayerInfoEnabled":true,"experimentLE3LaneC":false,"allOutAttackDisabled":false,"enableYouTubeTimeCheck":false,"disableMembershipVideoAdDuringSchoolHours":false,"loader-windowVarBlacklist":["hack"],"ultimates":true,"synapseMultiplayerMigrationEnabled":true,"petEvolutionGiftThreshold":5,"useNewAnswersURL":true,"enableReporting":{"houseReportButton":true,"playerCardReportButton":true},"enableVerboseGameServer":false,"pwaEnabled":true,"gameServerRollout":0,"enableYouTubeAd":true,"removeAssets":true,"allowRevampBattles":true,"debugPassword":"13v2HAqV9UOokid/55dedg==","enableMembershipVideoAd":true,"synapseCoopTitanEnabled":true,"petXPBoostEnabled":true,"splashScreen":"singleImage-293","recordingFeatures":{"archives-run":false,"post-tutorial":false},"gameClientVersion":"2025.10.0","loader-gameCodePathOverride":"https://code.prodigygame.com/code/5.3.0/","synapseMultiplayerFXEnabled":true,"morePetsInShopsExperimentNewLabelExpiry":1639544400000,"useCatalystSDK":["interactables.getCooldowns","interactables.setCooldown","arena.getCurrentSeason"],"showClassCodeInOptionsMenu":true,"sentrySampleRate":0.1,"surveyCheckIntervalMinutes":1,"showClassCodeOnLoginIfNotInAClass":true,"disableParentAttach5":true,"launcher-datadogSessionSampleRate":1,"launcher-errorPlatform":"sentry","googleLoginSettings":{"amazon":false,"google":false},"mobileProductOverride":"prodigy_math_yearly_ultimate","analyticsEventBlockList":["Interface Closed",{"event":"Button Clicked","button_name":"x-button"},"Battle Interface Clicked"],"launcher-bypassSelectionScreen":false,"loader-pixiSeven":true,"lockoutTrial":{"startDate":"July 3, 2019 00:00:00","endDate":"July 19, 2019 00:00:00","trialLengthDays":7},"gameDataVersion":2998,"datadogRumSampleRate":0,"xpMultiplier":{"startDate":"2021-04-08T13:00:00.000Z","endDate":"2021-04-12T13:00:00.000Z","zone":"skywatch","bonusMultiplier":2},"loader-allowedIps":["72.138.70.204"],"loader-gameDataVersionOverride":0,"synapseMultiplayerChangeAppearanceEnabled":true,"showMembershipPromptsAtSchool":true,"enableVerboseAnalytics":false,"localAssetsVersion":5,"loader-newMembershipFlow":true,"enableStoreGearStatsView":true,"loader-allowedOverrideIps":true,"multiplayerClusterLocations":[{"ID":1,"url":"https://multiplayer-1.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":2,"url":"https://multiplayer-2.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":3,"url":"https://multiplayer-3.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":4,"url":"https://multiplayer-4.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":5,"url":"https://multiplayer-5.prodigygame.com/","path":"/multiplayer-api/socket.io/"}]}}';
+        var gameStatusDataStr = '{"ServerGameVersion":"1.0.0","maintenance":false,"maintenanceMessage":"Prodigy Math will be back shortly. Please try again in a couple of minutes.","gameClientVersion":"2025.18.0","gameLibPath":"https://code.prodigygame.com/lib/","gameCodePath":"https://code.prodigygame.com/code/2025.18.0/","prodigyGameFlags":{"experimentLE3LaneB":true,"autoAttackDisabled":true,"isDatadogRumEnabled":false,"videoLessonInstantWin":false,"synapseMultiplayerJoinEnabled":true,"enableEducationApiJwtAuth":true,"gameDataPath":"https://cdn.prodigygame.com/game/data/production/","parentAttachTrial":{"startDate":"March 14, 2019 00:00:00","endDate":"April 11, 2019 00:00:00","trialLengthDays":7,"exclusionLanes":[0,1,2,3,4,5,6,7,8,9]},"synapseMultiplayerTransformEnabled":true,"enabledEvents":{"login":true,"toy-event":false,"PVP":true,"epicAttacks":true,"pvp-season-reward":true,"game_complete":false,"game_complete_v3":false,"member-ad":true,"new-member":true,"survey-results":true,"create-character":true,"zone-event":true,"item-change-event":true,"conversion-funnel-event":true,"battle-start-type":true,"game_social":true,"game_social_v3":false,"game_source":true,"game_source_v3":false,"game_sink":true,"game_sink_v3":false,"game_avatar_v3":false,"game_mod":true,"game_battle_v3":false,"anonymous_game_complete_v3":false,"game_question_v3":false,"game_session_start":true,"game_avatar":true,"game_level_up":true,"game_discovery_v3":false,"education_lesson_encounter_v3":false,"education_question_interface_v3":false,"game_session_start_v3":false,"anonymous_game_discovery":true},"coOpTitanDisabled":false,"enableUserReportingButton":false,"launcher-datadogReplaySampleRate":0,"gameAssetsVersion":436,"setFest":0,"showClassCodeOnLogin":true,"loader-gameClientOverride":false,"titanShardMultiplier":{"startDate":"2021-11-02T12:00:00.000Z","endDate":"2021-11-08T05:00:00.000Z","bonusMultiplier":2},"useServerTimeForVideoLockout":true,"synapseMultiplayerChatEnabled":true,"enableElementalGuardianZone":true,"experimentLE2":false,"disableTrialMembership":true,"classCodePromptCurriculumBlacklist":[7,68],"gameAssetsMetaDataPath":"https://code.prodigygame.com/assets","synapseMultiplayerMoveEnabled":true,"launcher-performEarlyAccessCheck":false,"synapseMultiplayerInfoEnabled":true,"experimentLE3LaneC":false,"allOutAttackDisabled":false,"enableYouTubeTimeCheck":false,"disableMembershipVideoAdDuringSchoolHours":false,"loader-windowVarBlacklist":["hack"],"ultimates":true,"synapseMultiplayerMigrationEnabled":true,"petEvolutionGiftThreshold":5,"useNewAnswersURL":true,"enableReporting":{"houseReportButton":true,"playerCardReportButton":true},"enableVerboseGameServer":false,"pwaEnabled":true,"gameServerRollout":0,"enableYouTubeAd":true,"removeAssets":true,"allowRevampBattles":true,"debugPassword":"13v2HAqV9UOokid/55dedg==","enableMembershipVideoAd":true,"synapseCoopTitanEnabled":true,"petXPBoostEnabled":true,"splashScreen":"singleImage-293","recordingFeatures":{"archives-run":false,"post-tutorial":false},"gameClientVersion":"2025.18.0","loader-gameCodePathOverride":"https://code.prodigygame.com/code/5.3.0/","synapseMultiplayerFXEnabled":true,"morePetsInShopsExperimentNewLabelExpiry":1639544400000,"useCatalystSDK":["interactables.getCooldowns","interactables.setCooldown","arena.getCurrentSeason"],"showClassCodeInOptionsMenu":true,"sentrySampleRate":0.1,"surveyCheckIntervalMinutes":1,"showClassCodeOnLoginIfNotInAClass":true,"disableParentAttach5":true,"launcher-datadogSessionSampleRate":1,"launcher-errorPlatform":"sentry","googleLoginSettings":{"amazon":false,"google":false},"mobileProductOverride":"prodigy_math_yearly_ultimate","analyticsEventBlockList":["Interface Closed",{"event":"Button Clicked","button_name":"x-button"},"Battle Interface Clicked"],"launcher-bypassSelectionScreen":false,"loader-pixiSeven":true,"lockoutTrial":{"startDate":"July 3, 2019 00:00:00","endDate":"July 19, 2019 00:00:00","trialLengthDays":7},"gameDataVersion":7318,"datadogRumSampleRate":0,"xpMultiplier":{"startDate":"2021-04-08T13:00:00.000Z","endDate":"2021-04-12T13:00:00.000Z","zone":"skywatch","bonusMultiplier":2},"loader-allowedIps":["72.138.70.204"],"loader-gameDataVersionOverride":0,"synapseMultiplayerChangeAppearanceEnabled":true,"showMembershipPromptsAtSchool":true,"enableVerboseAnalytics":false,"localAssetsVersion":5,"loader-newMembershipFlow":true,"enableStoreGearStatsView":true,"loader-allowedOverrideIps":true,"multiplayerClusterLocations":[{"ID":1,"url":"https://multiplayer-1.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":2,"url":"https://multiplayer-2.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":3,"url":"https://multiplayer-3.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":4,"url":"https://multiplayer-4.prodigygame.com/","path":"/multiplayer-api/socket.io/"},{"ID":5,"url":"https://multiplayer-5.prodigygame.com/","path":"/multiplayer-api/socket.io/"}]}}';
         window.gameApiStatusData = JSON.parse(gameStatusDataStr);
         var gameEnvironmentVariablesStr = '{"prevEnvId":null,"loadAssetsFromPrevEnv":false,"webRootUrl":"https://www.prodigygame.com","multiplayerRootUrl":"https://websocket.prodigygame.com","experimentsAPIHost":"https://growthbook.pub.prodigygame.com","experimentsClientKey":"sdk-ekYP8pLiUaC0H2k"}';
         window.gameEnvironmentVariables = JSON.parse(gameEnvironmentVariablesStr);
-        var eventDataStr = '{"uuid":"db5dbb4b-3161-4f16-806f-324f30cfffde","env":"production","version":"3.0.0","sentrySampleRate":"0.1","sentryTracesSampleRate":"0","startEventTimestamp":1740970079647}';
+        var eventDataStr = '{"uuid":"bc9e7c53-6c0a-405f-aee2-bcf6ee5d30f0","env":"production","version":"3.0.0","sentrySampleRate":"0.1","sentryTracesSampleRate":"0","startEventTimestamp":1743277917921}';
         window.eventData = JSON.parse(eventDataStr);
         window.launcherUrl = 'https://play.prodigygame.com';
         window.legacyAssetMappingsURL = "https://code.prodigygame.com/assets/json/legacy-asset-mappings-f839a9d2da.json";
         window.legacyPrefabMappingsURL = "https://code.prodigygame.com/assets/json/legacy-prefab-mappings-0409764503.json";
         window.legacyDuplicateAssetMappingsURL = "https://code.prodigygame.com/assets/json/legacy-duplicate-asset-mappings-7dbfb94930.json";
         //set for workers path discovery in the game file
-        window.gameCodeFile = 'https://code.prodigygame.com/code/2025.10.0/game.min.js?v=2025.10.0';
+        window.gameCodeFile = 'https://code.prodigygame.com/code/2025.18.0/game.min.js?v=2025.18.0';
         window.preserveUrls = false;
     </script>
     
     <script>
+    
         ((function () {
             var originalClearTimeout = window.clearTimeout.bind(window);
             var originalClearInterval = window.clearInterval.bind(window);
@@ -143,6 +76,7 @@
                 return originalClearTimeout(id);
             }
         })());
+    
     </script>
 
     <script src="https://code.prodigygame.com/js/load-game-8755528eee.min.js?v=1" crossorigin="anonymous" integrity="sha512-bQ52Oj0RBv1HXFQ5wsvnSDJhsAJSVJJL+qo3Mp/Ue4nB3lFfrqPDOYvoUJdRM3OsnDYIddO1WR31tzJf1HWqyw==" ></script>
@@ -154,7 +88,8 @@
     </script>
 
     <meta charset="UTF-8" />
-    <meta content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0'
+        name='viewport' />
 
     <link rel="preload" href="https://code.prodigygame.com/lib/easystar-2151e5baf1.min.js?v=1" crossorigin="anonymous" integrity="sha512-tyitZBEAZ1GA9E/kNKtZJXvaEeJpWXvtuBM1OuBatSfoq5/m47W876wMjkpO4CA7iTvG/G1N3s4iaL0+tTvzPQ==" as="script">
     <link rel="preload" href="https://code.prodigygame.com/lib/inversify-12bfe0fb23.min.js?v=1" crossorigin="anonymous" integrity="sha512-llbSw8AzwX2V47ZiPFPdTMEOXOKKKtQIIFwaG6K5sEu9dOhaWOCBpTHtBpafJuV1RvJjCw3pdqnCBU7EcGOkgw==" as="script">
@@ -162,7 +97,7 @@
     <link rel="preload" href="https://code.prodigygame.com/lib/crypto-core-5387f28fb5.min.js?v=1" crossorigin="anonymous" integrity="sha512-iuWbnXrAorjwVahg1KxPpjw8veBwvoQwBjWkwShH9Vbs2HHogf2vFhBuwzLVAYL6Wk64dQ7li8fOIj8VXoNQxg==" as="script">
     <link rel="preload" href="https://code.prodigygame.com/lib/lz-string-56881ebd3b.min.js?v=1" crossorigin="anonymous" integrity="sha512-H65l9V2YEHljvaKtFD4KDzE35rBbaOygaMMOCpcapssbw1hkaBdj8XtpWp5GJcJDduufbStwoBuzgGezPPpbXg==" as="script">
 
-    <link id="gameFile" rel="preload" href="https://code.prodigygame.com/code/2025.10.0/game.min.js?v=2025.10.0" as="script" integrity="sha512-KMOZD8yXAyx8b/Bs3NL/51dWHLhVC06pBUhVsXZnYLAfudvzGG+QjuisiI8kzXe9xafwzIf+HSuNIkbnvsNI7Q==" crossorigin="anonymous">
+    <link id="gameFile" rel="preload" href="https://code.prodigygame.com/code/2025.18.0/game.min.js?v=2025.18.0" as="script" integrity="sha512-4Z8V3C2CGNaOU8TgMB0HDyLo0JwN5nlOySHxJshtRt3HW+Q2u/2Ezjx/GneWYzSTqRFHH41iEXrcgMGtQsgaDg==" crossorigin="anonymous">
 
     <script src="https://code.prodigygame.com/lib/lodash-dc1f2c81cb.min.js"></script>
     
@@ -191,8 +126,10 @@
         SW.Load.getDeviceInformationFromAPI();
     </script>
     
-    <script src="https://code.prodigygame.com/lib/pixi7-45bac21f59.min.js?v=1" crossorigin="anonymous" integrity="sha512-PWys5VT3kpyGm7FZMni70pHIWsO5dMrz3KoiXXzbOZd+GVf+uA8/pyIs9CTik4y1F6Kc7jdkqzHwwnVkzF7Qgg=="></script>
     
+        <script src="https://code.prodigygame.com/lib/pixi7-45bac21f59.min.js?v=1" crossorigin="anonymous" integrity="sha512-PWys5VT3kpyGm7FZMni70pHIWsO5dMrz3KoiXXzbOZd+GVf+uA8/pyIs9CTik4y1F6Kc7jdkqzHwwnVkzF7Qgg=="></script>
+    
+
     <script src="https://code.prodigygame.com/lib/backbone-d0ea511e08.min.js?v=1" crossorigin="anonymous" integrity="sha512-hK/WH4nlOmcWX8JWhlkNjVKlBbEw4QZ6GKWy5zEBv5YIF8wZHaKxB3efpMkQ8gZnk7xETfkUxG9mGwwYLz2Xsw=="></script>
     <script src="https://code.prodigygame.com/lib/prodigy-experiments-c1246e8492.min.js?v=1" crossorigin="anonymous" integrity="sha512-QjkIlaHj4+2fntUFckBDvehA1rvX0gnoo1pv5U2cNL4lwJcOpfLvqvOqaalaUji2YdX9oU5HcypuoS3+6Id1sg=="></script>
 
@@ -233,7 +170,7 @@
         #game-wrapper {
             height: 100%;
             position: relative;
-            touch-action: none;
+			touch-action: none;
         }
 
         iframe {
@@ -358,109 +295,113 @@
 <body>
     <!-- Parental gate -->
     <div id="parental-gate-container" style="display: none;">
-        <form onsubmit="SW.Gate.onSubmit(event)">
-            <div class="nav-container">
-                <div class="nav-box nav-link" onclick="SW.Gate.onBack()">
-                    <span><i class="fa fa-chevron-left" style="padding-right: 5px;"></i><span class="back-button-span">Back</span></span>
-                </div>
-                <div class="logo-container nav-box">
-                    <img src="https://code.prodigygame.com/assets/svg/prodigy-logo-ea61172dba.svg">
-                </div>
-                <div class="nav-box nav-link" onclick="SW.Gate.onClose()">
-                    <span><i class="fa fa-times"></i></span>
-                </div>
+    <form onsubmit="SW.Gate.onSubmit(event)">
+        <div class="nav-container">
+            <div class="nav-box nav-link" onclick="SW.Gate.onBack()">
+            <span><i class="fa fa-chevron-left" style="padding-right: 5px;"></i><span class="back-button-span">Back</span></span>
             </div>
-            <div id="form" class="form-content">
-                <div class="title-container">
-                    <div class="title-text">Get a parent to help</div>
-                    <div class="purple-text">Hey parent, your child would like to sign up for a Prodigy membership.</div>
-                </div>
-                <div id="question-card" class="question-container">
-                    <div class="question-title">Question:</div>
-                    <div id="question" class="purple-text">
-                        <!-- question here -->
-                    </div>
-                    <div id="options" class="answers-container">
-                        <!-- options here-->
-                    </div>
-                    <div class="refresh-container">Change question? <u onclick="SW.Gate.refreshQuestion()">Refresh</u></div>
-                </div>
-                <div class="next-container">
-                    <button class="next-button form-button" type="submit">Next</button>
-                </div>
+            <div class="logo-container nav-box">
+            <img src="https://code.prodigygame.com/assets/svg/prodigy-logo-ea61172dba.svg">
             </div>
-            <div id="retry" class="form-content" style="display: none;">
-                <div class="title-container">
-                    <div class="title-text">Oh no, that was the incorrect answer<br/><br/>Please try again</div>
-                </div>
-                <div class="next-container">
-                    <button onclick="SW.Gate.loadView()" class="form-button next-button">Retry</button>
-                </div>
+            <div class="nav-box nav-link" onclick="SW.Gate.onClose()">
+            <span><i class="fa fa-times"></i></span>
             </div>
-        </form>
-    </div>
+        </div>
+        <div id="form" class="form-content">
+            <div class="title-container">
+            <div class="title-text">Get a parent to help</div>
+            <div class="purple-text">Hey parent, your child would like to sign up for a Prodigy membership.</div>
+            </div>
+            <div id="question-card" class="question-container">
+            <div class="question-title">Question:</div>
+            <div id="question" class="purple-text">
+                <!-- question here -->
+            </div>
+            <div id="options" class="answers-container">
+                <!-- options here-->
+            </div>
+            <div class="refresh-container">Change question? <u onclick="SW.Gate.refreshQuestion()">Refresh</u></div>
+            </div>
+            <div class="next-container">
+            <button class="next-button form-button" type="submit">Next</button>
+            </div>
+        </div>
+        <div id="retry" class="form-content" style="display: none;">
+            <div class="title-container">
+            <div class="title-text">Oh no, that was the incorrect answer<br/><br/>Please try again</div>
+            </div>
+            <div class="next-container">
+            <button onclick="SW.Gate.loadView()" class="form-button next-button">Retry</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
 
     <!-- Email form -->
     <div id="eml-form-container" style="display: none;">
-        <form id="" onsubmit="SW.EmailForm.onSubmit(event)">
-            <div class="nav-container">
-                <div class="logo-container nav-box">
-                    <img src="https://code.prodigygame.com/assets/svg/prodigy-logo-ea61172dba.svg">
-                </div>
+    <form id="" onsubmit="SW.EmailForm.onSubmit(event)">
+        <div class="nav-container">
+          <div class="logo-container nav-box">
+            <img src="https://code.prodigygame.com/assets/svg/prodigy-logo-ea61172dba.svg">
+          </div>
+        </div>
+        <div id="eml-form" class="form-content">
+            <div class="title-container">
+            <div class="title-text">One last step</div>
+            <div class="purple-text">
+              Unlock your own premium parent tools to track and get insights on your child's progress.
             </div>
-            <div id="eml-form" class="form-content">
-                <div class="title-container">
-                    <div class="title-text">One last step</div>
-                    <div class="purple-text">
-                        Unlock your own premium parent tools to track and get insights on your child's progress.
-                    </div>
-                </div>
-                <div id="question-card" class="question-container">
-                    <div class="question-title"><b>Parent Account Info</b></div>
-                    <div class="input-container">
-                        <label for="eml-form-name">Parent's full name</label>
-                        <input id="eml-form-name" type="text" value="">
-                        <label for="eml-form-email">Parent's email</label>
-                        <input id="eml-form-email" type="text" value="">
-                        <label for="eml-form-confirm">Confirm parent's email</label>
-                        <input id="eml-form-confirm" type="text" value="">
-                    </div>
-                    <div id="eml-invalid-container" class="red-text" style="display: none;"></div>
-                    <div class="eml-warning-container">* If you already have a parent account, use the same email here. 
-                        We will send you child progress reports and your receipts. 
-                        By submitting account information, you agree to <b><span onclick="SW.EmailForm.viewPrivacy()">Prodigy's Privacy Policy</span> and <span onclick="SW.EmailForm.viewTerms()">Terms of use.</span></b></div>
-                </div>
-                <div class="next-container">
-                    <button id="eml-form-submit-button" class="next-button form-button" type="submit">Submit</button>
-                </div>
-                <div class="notice-container">
-                    We respect your privacy and do not tolerate spam and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party.
-                </div>
-                <div class="skip-container">
-                    <span class="back-button-span nav-link" onclick="SW.EmailForm.onClose()">Skip</span>
-                    <div class="policy-container">
-                        <span onclick="SW.EmailForm.viewPrivacy()">Privacy Policy</span> | <span onclick="SW.EmailForm.viewTerms()">Terms of Conditions</span>
-                    </div>
-                </div>
             </div>
-            <div id="eml-form-submitted" class="form-content" style="display: none;">
-                <div class="title-container">
-                    <div class="title-text">Thank you</div>
-                    <div class="title-text purple-text">
-                        We sent you an email with all the info you need to sign up for your free parent account...
-                    </div>
-                    <div class="did-not-receieve-container">
-                        Did not receive an email?
-                        <br />
-                        <span class="back-button-span nav-link" onclick="SW.EmailForm.sendEmail()">Re-send email</span>
-                    </div>
-                </div>
-                <div class="next-container">
-                    <button onclick="SW.EmailForm.onClose()" class="form-button next-button">Back to game</button>
-                </div>
+            <div id="question-card" class="question-container">
+              <div class="question-title"><b>Parent Account Info</b></div>
+              <div class="input-container">
+                  <label for="eml-form-name">Parent's full name</label>
+                  <input id="eml-form-name" type="text" value="">
+                  <label for="eml-form-email">Parent's email</label>
+                  <input id="eml-form-email" type="text" value="">
+                  <label for="eml-form-confirm">Confirm parent's email</label>
+                  <input id="eml-form-confirm" type="text" value="">
+              </div>
+              <div id="eml-invalid-container" class="red-text" style="display: none;"></div>
+              <div class="eml-warning-container">* If you already have a parent account, use the same email here. 
+                We will send you child progress reports and your receipts. 
+                By submitting account information, you agree to <b><span onclick="SW.EmailForm.viewPrivacy()">Prodigy's Privacy Policy</span> and <span onclick="SW.EmailForm.viewTerms()">Terms of use.</span></b></div>
             </div>
-        </form>
-    </div>
+            <div class="next-container">
+              <button id="eml-form-submit-button" class="next-button form-button" type="submit">Submit</button>
+            </div>
+            <div class="notice-container">
+              We respect your privacy and do not tolerate spam and will never sell, rent, lease or give away your information (name, address, email, etc.) to any third party.
+            </div>
+            <div class="skip-container">
+              <span class="back-button-span nav-link" onclick="SW.EmailForm.onClose()">Skip</span>
+              <div class="policy-container">
+                <span onclick="SW.EmailForm.viewPrivacy()">Privacy Policy</span> | <span onclick="SW.EmailForm.viewTerms()">Terms of Conditions</span>
+              </div>
+            </div>
+        </div>
+        <div id="eml-form-submitted" class="form-content" style="display: none;">
+            <div class="title-container">
+              <div class="title-text">Thank you</div>
+              <div class="title-text purple-text">
+                We sent you an email with all the info you need to sign up for your free parent account...
+              </div>
+              <div class="did-not-receieve-container">
+                Did not receive an email?
+                <br />
+                <span class="back-button-span nav-link" onclick="SW.EmailForm.sendEmail()">Re-send email</span>
+              </div>
+            </div>
+            <div class="next-container">
+            <button onclick="SW.EmailForm.onClose()" class="form-button next-button">Back to game</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
 
     <!-- iap spinner -->
     <div id="iap-spinner" style="display: none;">
@@ -471,7 +412,7 @@
 
     <div id="warning-div" style="display: none;">
         <div id="warning-panel">
-            <img src="https://code.prodigygame.com/assets/images/alert-c51200b90c.png" id="error-icon" />
+          <img src="https://code.prodigygame.com/assets/images/alert-c51200b90c.png" id="error-icon" />
             <!-- TODO: Localize -->
             <p id="warning-title"></p>
             <p id="warning-text"></p>
@@ -511,13 +452,15 @@
                     <div id="ed-progress-bar" class="ed-progress-bar" style="width: 0%"></div>
                 </div>
             </div>
-            <div class="game-loading__font" style="display: inline-block; text-align: center; position: relative; width: 100%">
+            <div class="game-loading__font"
+                style="display: inline-block; text-align: center; position: relative; width: 100%">
                 <div id="loading-text">Loading game</div><div class="dot1">.</div><div class="dot2">.</div><div class="dot3">.</div>
             </div>
         </div>
     </div>
     <div id="game-wrapper">
-        <div id='game-container'></div>
+        <div id='game-container'>
+        </div>
         <div id='external-content'></div>
         <div id='external-ui'></div>
         <div id='notices'></div>
@@ -544,7 +487,8 @@
     <script onload="SW.Load.updateProgressBar(40);" src="https://code.prodigygame.com/lib/lz-string-56881ebd3b.min.js?v=1" crossorigin="anonymous" integrity="sha512-H65l9V2YEHljvaKtFD4KDzE35rBbaOygaMMOCpcapssbw1hkaBdj8XtpWp5GJcJDduufbStwoBuzgGezPPpbXg==" ></script>
     <script onload="SW.Load.updateProgressBar(45); SW.Load.loadFonts();" src="https://code.prodigygame.com/lib/crypto-libs-306070295f.min.js?v=1" crossorigin="anonymous" integrity="sha512-SkYjHf/iKGOAzj+a2etEp/Ir80YMHkRE5BO8CRUl113eNVx4Cf272333kLz0dSesHYtAps84eQtyDk7CAVzgkw==" ></script>
 
-    <script id="gameFile" src="https://code.prodigygame.com/code/2025.10.0/game.min.js?v=2025.10.0" onload="SW.Load.decrementLoadSemaphore();" integrity="sha512-KMOZD8yXAyx8b/Bs3NL/51dWHLhVC06pBUhVsXZnYLAfudvzGG+QjuisiI8kzXe9xafwzIf+HSuNIkbnvsNI7Q==" crossorigin="anonymous"></script>
+    <script id="gameFile" src="https://code.prodigygame.com/code/2025.18.0/game.min.js?v=2025.18.0" onload="SW.Load.decrementLoadSemaphore();" integrity="sha512-4Z8V3C2CGNaOU8TgMB0HDyLo0JwN5nlOySHxJshtRt3HW+Q2u/2Ezjx/GneWYzSTqRFHH41iEXrcgMGtQsgaDg==" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>
